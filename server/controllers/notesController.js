@@ -2,8 +2,8 @@ const Note = require('../models/Note');
 
 exports.createNote = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const newNote = await Note.create(title, content);
+    const { title, content, color } = req.body;
+    const newNote = await Note.create(title, content, color);
     res.status(201).json(newNote);
   } catch (error) {
     console.error(error);

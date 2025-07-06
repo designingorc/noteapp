@@ -1,10 +1,10 @@
 const pool = require('../config/db');
 
 class Note {
-  static async create(title, content) {
+  static async create(title, content, color) {
     const result = await pool.query(
-      'INSERT INTO notes (title, content) VALUES ($1, $2) RETURNING *',
-      [title, content]
+      'INSERT INTO notes (title, content, color) VALUES ($1, $2, $3) RETURNING *',
+      [title, content, color]
     );
     return result.rows[0];
   }
