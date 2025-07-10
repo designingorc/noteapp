@@ -1,32 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const notesRoutes = require('./routes/notes');
-const pool = require('./config/db'); // Import to ensure connection on startup
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
-app.use(express.json()); // For parsing application/json
+app.use(express.json()); // Allows parsing of JSON body
+app.use(cors()); // Enable CORS for all origins (adjust for production)
 
-// Routes
-app.use('/api/notes', notesRoutes);
+// Define Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/notes', require('./routes/notes'));
 
-// Test DB connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Error connecting to database:', err);
-  } else {
-    console.log('Database connected successfully at:', res.rows[0].now);
-  }
-});
-
+// Basic route
 app.get('/', (req, res) => {
-  res.send('Note App Backend API');
+    res.send('Note App API is running!');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
